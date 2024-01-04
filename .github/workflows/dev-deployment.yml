@@ -33,7 +33,7 @@ jobs:
           SOURCE: "dist"
           REMOTE_HOST: "ec2-54-83-113-247.compute-1.amazonaws.com"
           REMOTE_USER: "ec2-user"
-          TARGET: "/dist"
+          TARGET: ""
       # - name: rsync deployments
       #   uses: burnett01/rsync-deployments@5.1
       #   with:
