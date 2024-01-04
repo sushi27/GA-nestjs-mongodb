@@ -24,7 +24,7 @@ jobs:
           node-version: '16.16.0'
 
       - name: Install dependencies and build
-        run: npm install && npm run build
+        run: npm ci && npm run build
 
       - name: Deploy to my EC2 instance
         uses: easingthemes/ssh-deploy@main
