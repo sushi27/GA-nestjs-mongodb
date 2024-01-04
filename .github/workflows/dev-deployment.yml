@@ -29,7 +29,7 @@ jobs:
           VERBOSE: true
           USER: ec2-user
           SOURCE: ./*
-          SSH_ARGS: -p 22 -o StrictHostKeyChecking=no" --recursive --exclude= -rlgoDzvc -i
+          SSH_ARGS: -p 22 -o StrictHostKeyChecking=no --recursive --exclude= -rlgoDzvc -i
           PRE_SCRIPT: |
             echo start at:
             date -u
