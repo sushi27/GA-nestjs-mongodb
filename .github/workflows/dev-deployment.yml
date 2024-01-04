@@ -26,14 +26,24 @@ jobs:
       - name: Install dependencies and build
         run: npm ci && npm run build
 
-      - name: Deploy to my EC2 instance
-        uses: easingthemes/ssh-deploy@v2.1.5
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.5.0
         with:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY}}
-          SOURCE: "dist"
-          REMOTE_HOST: "54.85.125.135"
-          REMOTE_USER: "ec2-user"
-          TARGET: "/"
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Deploy build folder
+        run: |
+          # Replace "your-ec2-ip" and "your-ec2-username" with your EC2 instance details
+          scp -r ./dist ec2-user@54.85.125.135:/
+
+      # - name: Deploy to my EC2 instance
+      #   uses: easingthemes/ssh-deploy@v2.1.5
+      #   with:
+      #     SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY}}
+      #     SOURCE: "dist"
+      #     REMOTE_HOST: "54.85.125.135"
+      #     REMOTE_USER: "ec2-user"
+      #     TARGET: "/"
 
       # - name: Deploy to Server
       #   uses: easingthemes/ssh-deploy@main
