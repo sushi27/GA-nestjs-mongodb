@@ -26,12 +26,20 @@ jobs:
       - name: Install dependencies and build
         run: npm install && npm run build
 
-      - name: rsync deployments
-        uses: burnett01/rsync-deployments@5.1
+      - name: Deploy to my EC2 instance
+        uses: easingthemes/ssh-deploy@v2.1.5
         with:
-          switches: -avzr --delete
-          path: ./dist
-          remote_path: /dist
-          remote_host: ec2-54-83-113-247.compute-1.amazonaws.com
-          remote_user: ec2-user
-          remote_key: "${{ secrets.SSH_PRIVATE_KEY }}"
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY}}
+          SOURCE: "dist"
+          REMOTE_HOST: "ec2-54-83-113-247.compute-1.amazonaws.com"
+          REMOTE_USER: "ec2-user"
+          TARGET: "/dist"
+      # - name: rsync deployments
+      #   uses: burnett01/rsync-deployments@5.1
+      #   with:
+      #     switches: -avzr --delete
+      #     path: ./dist
+      #     remote_path: /dist
+      #     remote_host: ec2-54-83-113-247.compute-1.amazonaws.com
+      #     remote_user: ec2-user
+      #     remote_key: "${{ secrets.SSH_PRIVATE_KEY }}"
