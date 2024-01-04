@@ -24,14 +24,14 @@ jobs:
           node-version: '16.16.0'
 
       - name: Install dependencies and build
-        run: npm ci && npm run build
+        run: npm install && npm run build
 
       - name: rsync deployments
         uses: burnett01/rsync-deployments@5.1
         with:
           switches: -avzr --delete
           path: ./dist
-          remote_path: /
-          remote_host: ec2-54-84-90-129.compute-1.amazonaws.com
+          remote_path: /dist
+          remote_host: ec2-54-83-113-247.compute-1.amazonaws.com
           remote_user: ec2-user
           remote_key: "${{ secrets.SSH_PRIVATE_KEY }}"
