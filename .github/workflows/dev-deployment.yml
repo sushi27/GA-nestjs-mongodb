@@ -20,9 +20,6 @@ jobs:
       - name: Install dependencies and build
         run: npm ci && npm run build
 
-      - name: List
-        run: cd dist && ls
-
       - name: Deploy to my EC2 instance
         uses: easingthemes/ssh-deploy@main
         with:
@@ -32,8 +29,8 @@ jobs:
           REMOTE_USER: "ec2-user"
           TARGET: ""
           SCRIPT_AFTER: |
-            export MONGODB_CLUSTER_ADDRESS=cluster0.dkejpa2.mongodb.net
-            export MONGODB_USERNAME=susanto
-            export MONGODB_PASSWORD=GhL0v1sJhdTKZlW2
-            export MONGODB_DB_NAME=studentdb
-            export PORT=3000
+            export MONGODB_DB_NAME=${{ secrets.MONGODB_DB_NAME }}
+            export MONGODB_CLUSTER_ADDRESS=${{ secrets.MONGODB_CLUSTER_ADDRESS }}
+            export MONGODB_USERNAME=${{ secrets.MONGODB_USERNAME }}
+            export MONGODB_PASSWORD=${{ secrets.MONGODB_PASSWORD }}
+            export PORT=${{ secrets.PORT }}
