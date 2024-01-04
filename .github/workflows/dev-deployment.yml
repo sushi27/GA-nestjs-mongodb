@@ -25,11 +25,11 @@ jobs:
         env:
           HOST: ec2-54-83-113-247.compute-1.amazonaws.com
           KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          TARGET: ""
+          TARGET: "/"
           VERBOSE: true
           USER: ec2-user
           SOURCE: ./*
-  
+          SSH_ARGS: -p 22 -o StrictHostKeyChecking=no" --recursive --exclude= -rlgoDzvc -i
           PRE_SCRIPT: |
             echo start at:
             date -u
