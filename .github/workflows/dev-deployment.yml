@@ -17,17 +17,20 @@ jobs:
       - name: Get Code
         uses: actions/checkout@v3
 
-      - name: Install dependencies
-        run: npm ci
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16.16.0'
 
-      - name: Install Vercel CLI
-        run: npm install --global vercel@latest
+      - name: Install dependencies and build
+        run: npm ci && npm run build
 
-      - name: Pull Vercel Environment Information
-        run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
-
-      - name: Build Project Artifacts
-        run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
-
-      - name: Deploy Project Artifacts to Vercel
-        run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Deploy to Server
+        uses: easingthemes/ssh-deploy@main
+        with:
+            SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+            ARGS: "-rlgoDzvc -i --delete"
+            SOURCE: "dist/"
+            REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+            REMOTE_USER: ${{ secrets.REMOTE_USER }}
+            EXCLUDE: "/dist/, /node_modules/"
