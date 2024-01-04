@@ -8,12 +8,6 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    env:
-      MONGODB_DB_NAME: ${{ secrets.MONGODB_DB_NAME }}
-      MONGODB_CLUSTER_ADDRESS: ${{ secrets.MONGODB_CLUSTER_ADDRESS }}
-      MONGODB_USERNAME: ${{ secrets.MONGODB_USERNAME }}
-      MONGODB_PASSWORD: ${{ secrets.MONGODB_PASSWORD }}
-      PORT: ${{ secrets.PORT }}
     steps:
       - name: Get Code
         uses: actions/checkout@v3
@@ -37,12 +31,9 @@ jobs:
           REMOTE_HOST: "ec2-54-83-113-247.compute-1.amazonaws.com"
           REMOTE_USER: "ec2-user"
           TARGET: ""
-      # - name: rsync deployments
-      #   uses: burnett01/rsync-deployments@5.1
-      #   with:
-      #     switches: -avzr --delete
-      #     path: ./dist
-      #     remote_path: /dist
-      #     remote_host: ec2-54-83-113-247.compute-1.amazonaws.com
-      #     remote_user: ec2-user
-      #     remote_key: "${{ secrets.SSH_PRIVATE_KEY }}"
+          SCRIPT_BEFORE: |
+            export MONGODB_DB_NAME: ${{ secrets.MONGODB_DB_NAME }}
+            export MONGODB_CLUSTER_ADDRESS: ${{ secrets.MONGODB_CLUSTER_ADDRESS }}
+            export MONGODB_USERNAME: ${{ secrets.MONGODB_USERNAME }}
+            export MONGODB_PASSWORD: ${{ secrets.MONGODB_PASSWORD }}
+            export PORT: ${{ secrets.PORT }}
