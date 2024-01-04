@@ -33,7 +33,7 @@ jobs:
         uses: easingthemes/ssh-deploy@main
         with:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY}}
-          SOURCE: "./dist"
+          SOURCE: "./*"
           REMOTE_HOST: "ec2-54-83-113-247.compute-1.amazonaws.com"
           REMOTE_USER: "ec2-user"
           TARGET: ""
