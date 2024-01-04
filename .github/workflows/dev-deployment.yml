@@ -31,6 +31,6 @@ jobs:
           switches: -avzr --delete
           path: ./dist
           remote_path: /
-          remote_host: ec2-54-85-125-135.compute-1.amazonaws.com/
-          remote_user: Rohit_143
+          remote_host: ec2-54-85-125-135.compute-1.amazonaws.com
+          remote_user: ec2-user
           remote_key: "${{ secrets.SSH_PRIVATE_KEY }}"
