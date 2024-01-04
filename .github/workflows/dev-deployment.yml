@@ -26,6 +26,9 @@ jobs:
       - name: Install dependencies and build
         run: npm ci && npm run build
 
+      - name: List
+        run: cd dist && ls
+
       - name: Deploy to my EC2 instance
         uses: easingthemes/ssh-deploy@main
         with:
