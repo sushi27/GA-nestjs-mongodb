@@ -32,8 +32,8 @@ jobs:
           REMOTE_USER: "ec2-user"
           TARGET: ""
           SCRIPT_BEFORE: |
-            export MONGODB_DB_NAME: ${{ secrets.MONGODB_DB_NAME }}
-            export MONGODB_CLUSTER_ADDRESS: ${{ secrets.MONGODB_CLUSTER_ADDRESS }}
-            export MONGODB_USERNAME: ${{ secrets.MONGODB_USERNAME }}
-            export MONGODB_PASSWORD: ${{ secrets.MONGODB_PASSWORD }}
-            export PORT: ${{ secrets.PORT }}
+            export MONGODB_DB_NAME=${{ secrets.MONGODB_DB_NAME }}
+            export MONGODB_CLUSTER_ADDRESS=${{ secrets.MONGODB_CLUSTER_ADDRESS }}
+            export MONGODB_USERNAME=${{ secrets.MONGODB_USERNAME }}
+            export MONGODB_PASSWORD=${{ secrets.MONGODB_PASSWORD }}
+            export PORT=${{ secrets.PORT }}
