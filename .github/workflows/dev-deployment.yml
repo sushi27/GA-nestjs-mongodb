@@ -20,31 +20,28 @@ jobs:
       - name: Install dependencies and build
         run: npm ci && npm run build
 
-      - name: Deploy to my ❤️
-        uses: up9cloud/action-rsync@master
+      - name: Build & Deploy
         env:
-          HOST: ec2-54-83-113-247.compute-1.amazonaws.com
-          KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          TARGET: "/"
-          VERBOSE: true
-          USER: ec2-user
-          SOURCE: ./*
-          SSH_ARGS: -p 22 -o StrictHostKeyChecking=no --recursive --exclude= -rlgoDzvc -i
-          PRE_SCRIPT: |
-            echo start at:
-            date -u
-          POST_SCRIPT: "echo done at: && date -u"
-      # - name: Deploy to my EC2 instance
-      #   uses: easingthemes/ssh-deploy@main
-      #   with:
-      #     SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY}}
-      #     SOURCE: "./*"
-      #     REMOTE_HOST: "ec2-54-83-113-247.compute-1.amazonaws.com"
-      #     REMOTE_USER: "ec2-user"
-      #     TARGET: ""
-      #     SCRIPT_AFTER: |
-      #       export MONGODB_DB_NAME=${{ secrets.MONGODB_DB_NAME }}
-      #       export MONGODB_CLUSTER_ADDRESS=${{ secrets.MONGODB_CLUSTER_ADDRESS }}
-      #       export MONGODB_USERNAME=${{ secrets.MONGODB_USERNAME }}
-      #       export MONGODB_PASSWORD=${{ secrets.MONGODB_PASSWORD }}
-      #       export PORT=${{ secrets.PORT }}
+            PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+            HOSTNAME: ${{secrets.REMOTE_HOST}}
+            USER_NAME: ${{secrets.REMOTE_USER}}
+      
+        run: |
+          echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
+          ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME} '
+
+              # Now we have got the access of EC2 and we will start the deploy .
+              export MONGODB_DB_NAME=${{ secrets.MONGODB_DB_NAME }} &&
+              export MONGODB_CLUSTER_ADDRESS=${{ secrets.MONGODB_CLUSTER_ADDRESS }} &&
+              export MONGODB_USERNAME=${{ secrets.MONGODB_USERNAME }} &&
+              export MONGODB_PASSWORD=${{ secrets.MONGODB_PASSWORD }} &&
+              export PORT=${{ secrets.PORT }} &&
+
+      - name: Deploy to my EC2 instance
+        uses: easingthemes/ssh-deploy@main
+        with:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY}}
+          SOURCE: "./*"
+          REMOTE_HOST: ${{secrets.REMOTE_HOST}}
+          REMOTE_USER: ${{secrets.REMOTE_USER}}
+          TARGET: ""
