@@ -31,9 +31,9 @@ jobs:
         with:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY}}
           SOURCE: "dist"
-          REMOTE_HOST: "ec2-54-85-125-135.compute-1.amazonaws.com"
+          REMOTE_HOST: "54.85.125.135"
           REMOTE_USER: "ec2-user"
-          TARGET: ""
+          TARGET: "/"
 
       # - name: Deploy to Server
       #   uses: easingthemes/ssh-deploy@main
