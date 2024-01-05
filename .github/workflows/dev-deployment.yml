@@ -20,23 +20,23 @@ jobs:
       - name: Install dependencies and build
         run: npm ci && npm run build
 
-      - name: Build & Deploy
-        env:
-            PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-            HOSTNAME: ${{secrets.REMOTE_HOST}}
-            USER_NAME: ${{secrets.REMOTE_USER}}
+      # - name: Build & Deploy
+      #   env:
+      #       PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+      #       HOSTNAME: ${{secrets.REMOTE_HOST}}
+      #       USER_NAME: ${{secrets.REMOTE_USER}}
       
-        run: |
-          echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
-          ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME} '
+      #   run: |
+      #     echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
+      #     ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME} '
 
-              # Now we have got the access of EC2 and we will start the deploy .
-              export MONGODB_DB_NAME=${{ secrets.MONGODB_DB_NAME }} &&
-              export MONGODB_CLUSTER_ADDRESS=${{ secrets.MONGODB_CLUSTER_ADDRESS }} &&
-              export MONGODB_USERNAME=${{ secrets.MONGODB_USERNAME }} &&
-              export MONGODB_PASSWORD=${{ secrets.MONGODB_PASSWORD }} &&
-              export PORT=${{ secrets.PORT }}
-              '
+      #         # Now we have got the access of EC2 and we will start the deploy .
+      #         export MONGODB_DB_NAME=${{ secrets.MONGODB_DB_NAME }} &&
+      #         export MONGODB_CLUSTER_ADDRESS=${{ secrets.MONGODB_CLUSTER_ADDRESS }} &&
+      #         export MONGODB_USERNAME=${{ secrets.MONGODB_USERNAME }} &&
+      #         export MONGODB_PASSWORD=${{ secrets.MONGODB_PASSWORD }} &&
+      #         export PORT=${{ secrets.PORT }}
+      #         '
 
       - name: Deploy to my EC2 instance
         uses: easingthemes/ssh-deploy@main
@@ -46,3 +46,6 @@ jobs:
           REMOTE_HOST: ${{secrets.REMOTE_HOST}}
           REMOTE_USER: ${{secrets.REMOTE_USER}}
           TARGET: ""
+
+          SCRIPT_AFTER : |
+            pm2 start nest-server
