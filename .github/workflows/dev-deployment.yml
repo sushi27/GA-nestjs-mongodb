@@ -31,4 +31,4 @@ jobs:
 
             npm install &&
             npm run build &&
-            pm2 -f start dist/main.js --name nest-server
+            pm2 restart dist/main.js --name nest-server
