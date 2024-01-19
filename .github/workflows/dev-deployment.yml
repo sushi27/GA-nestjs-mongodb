@@ -23,12 +23,19 @@ jobs:
           EXCLUDE: "/node_modules/"
 
           SCRIPT_AFTER : |
-            export MONGODB_DB_NAME=${{ secrets.MONGODB_DB_NAME }} &&
-            export MONGODB_CLUSTER_ADDRESS=${{ secrets.MONGODB_CLUSTER_ADDRESS }} &&
-            export MONGODB_USERNAME=${{ secrets.MONGODB_USERNAME }} &&
-            export MONGODB_PASSWORD=${{ secrets.MONGODB_PASSWORD }} &&
-            export PORT=${{ secrets.PORT }} &&
 
-            npm install &&
-            npm run build &&
+            # export MONGODB_DB_NAME=${{ secrets.MONGODB_DB_NAME }} &&
+            # export MONGODB_CLUSTER_ADDRESS=${{ secrets.MONGODB_CLUSTER_ADDRESS }} &&
+            # export MONGODB_USERNAME=${{ secrets.MONGODB_USERNAME }} &&
+            # export MONGODB_PASSWORD=${{ secrets.MONGODB_PASSWORD }} &&
+            # export PORT=${{ secrets.PORT }} &&
+
+            echo "MONGODB_DB_NAME=${{ secrets.MONGODB_DB_NAME }}"
+            echo "MONGODB_CLUSTER_ADDRESS=${{ secrets.MONGODB_CLUSTER_ADDRESS }}"
+            echo "MONGODB_USERNAME=${{ secrets.MONGODB_USERNAME }}"
+            echo "MONGODB_PASSWORD=${{ secrets.MONGODB_PASSWORD }}"
+            echo "PORT=${{ secrets.PORT }}"
+
+            npm install
+            npm run build
             pm2 restart nest-server
