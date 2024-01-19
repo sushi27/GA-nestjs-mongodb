@@ -29,15 +29,16 @@ jobs:
           EXCLUDE: "/node_modules/"
 
           SCRIPT_AFTER : |
+            echo "Start setting env variables"
 
-            # export MONGODB_DB_NAME=${{ secrets.MONGODB_DB_NAME }} &&
-            # export MONGODB_CLUSTER_ADDRESS=${{ secrets.MONGODB_CLUSTER_ADDRESS }} &&
-            # export MONGODB_USERNAME=${{ secrets.MONGODB_USERNAME }} &&
-            # export MONGODB_PASSWORD=${{ secrets.MONGODB_PASSWORD }} &&
-            # export PORT=${{ secrets.PORT }} &&
+            export MONGODB_DB_NAME=${{ env.MONGODB_DB_NAME }}
+            export MONGODB_CLUSTER_ADDRESS=${{ env.MONGODB_CLUSTER_ADDRESS }}
+            export MONGODB_USERNAME=${{ env.MONGODB_USERNAME }}
+            export MONGODB_PASSWORD=${{ env.MONGODB_PASSWORD }}
+            export PORT=${{ env.PORT }}
 
-            echo "NAME = $NAME ${{ env.MONGODB_CLUSTER_ADDRESS}}"
-            echo "AGE = $AGE ${{ env.MONGODB_DB_NAME}}"
+            echo "End setting env variables"
+
             npm install
             npm run build
             pm2 restart nest-server
